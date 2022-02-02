@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".Dashboard">
+
+        <ImageView
+            android:id="@+id/ivProfilepic"
+            android:layout_width="411dp"
+            android:layout_height="238dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/logo" />
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="@dimen/tv_width"
+            android:layout_height="@dimen/tv_height"
+            android:layout_marginTop="@dimen/margin_signup"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:text="Name"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/tvName"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivProfilepic" />
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="@dimen/tv_width"
+            android:layout_height="@dimen/tv_height"
+            android:layout_marginTop="@dimen/margin_signup"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivProfilepic" />
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="@dimen/tv_width"
+            android:layout_height="@dimen/tv_height"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:text="Date Of Birth"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/tvDOB"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView13" />
+
+        <TextView
+            android:id="@+id/tvDOB"
+            android:layout_width="@dimen/tv_width"
+            android:layout_height="@dimen/tv_height"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:text="TextView"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvName" />
+
+        <TextView
+            android:id="@+id/tvUserId"
+            android:layout_width="@dimen/tv_width"
+            android:layout_height="@dimen/tv_height"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvDOB" />
+
+        <TextView
+            android:id="@+id/textView18"
+            android:layout_width="@dimen/tv_width"
+            android:layout_height="@dimen/tv_height"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:text="User Id"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/tvUserId"
+            app:layout_constraintHorizontal_bias="0.049"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView15" />
+
+        <Button
+            android:id="@+id/bChangePass"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tv_height"
+            android:drawableRight="@drawable/ic_baseline_play_arrow_24"
+            android:gravity="center_vertical"
+
+            android:text="  Change Password"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView18" />
+
+        <Button
+            android:id="@+id/bDelete"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tv_height"
+            android:backgroundTint="#DF0909"
+            android:gravity="center_vertical"
+            android:text="  Delete User"
+            android:textSize="20sp"
+            app:layout_constraintTop_toBottomOf="@+id/bChangePass"
+            tools:layout_editor_absoluteX="-2dp" />
+
+        <Button
+            android:id="@+id/bLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:background="#001827"
+            android:backgroundTint="#001827"
+            android:text="Logout"
+            android:textColor="#ECE1E1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bDelete" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
