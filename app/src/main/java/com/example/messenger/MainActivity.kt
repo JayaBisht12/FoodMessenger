@@ -13,13 +13,19 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_main)
 
+//
+
         val sharedPreferences: SharedPreferences? =
             this?.getSharedPreferences("MySharedPref", MODE_PRIVATE)
+//        val myEdit = sharedPreferences?.edit()
+//        myEdit?.putString("username","apoorv12")
+//        myEdit?.putString("password","12345678")
+//        myEdit?.apply()
             var userid:String = sharedPreferences?.getString("username",null).toString()
 
         if (sharedPreferences?.getString("username", null)!= null) {
             //
-            val i = Intent(this, Dashboard::class.java).apply {
+            val i = Intent(this, Dashboard1::class.java).apply {
                 putExtra("Data",userid)
             }
             startActivity(i)

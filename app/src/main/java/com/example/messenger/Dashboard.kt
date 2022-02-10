@@ -24,7 +24,7 @@ class Dashboard : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
         val bChangePass= findViewById<TextView>(R.id.bChangePass)
-        setTitle("Dashboard")
+       // setTitle("Dashboard")
         var db: UserDAO = AppDatabase.getInstance(this.applicationContext)?.userDao()!!
         val list=db.getAllusers() //list of data
         val intentValue = intent.getStringExtra("Data")//userid received from the signin fragment

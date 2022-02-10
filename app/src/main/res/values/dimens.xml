@@ -7,4 +7,7 @@
     <dimen name="margin_signin">20dp</dimen>
     <dimen name="tv_width">206dp</dimen>
     <dimen name="tv_height">52dp</dimen>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
 </resources>

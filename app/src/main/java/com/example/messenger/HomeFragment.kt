@@ -1,12 +1,14 @@
 package com.example.messenger
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 
@@ -43,13 +45,23 @@ class HomeFragment : Fragment() {
         val bSignup=v.findViewById<Button>(R.id.bSignup)
         bSignin.setOnClickListener {
 
-            navc= Navigation.findNavController(v)
+           navc= Navigation.findNavController(v)
             navc?.navigate(R.id.signinnFrag)
 
         }
 
         bSignup.setOnClickListener {
-
+//            val i =
+//                Intent(this.requireContext(), Dashboard::class.java).apply {
+//
+//                }
+//            Toast.makeText(
+//                context,
+//                "Logged In Successfully",
+//                Toast.LENGTH_SHORT
+//            ).show()
+//            startActivity(i)
+//            activity?.finish()
             navc= Navigation.findNavController(v)
             navc?.navigate(R.id.signUpFragment)
 

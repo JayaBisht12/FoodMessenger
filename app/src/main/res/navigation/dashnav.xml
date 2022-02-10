@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dashnav"
+    tools:layout="@layout/fragment_dash_home"
+    app:startDestination="@id/dashHomeFragment">
+    <fragment
+        android:id="@+id/dashHomeFragment"
+        android:name="com.example.messenger.DashHomeFragment"
+        android:label="DashHomeFragment"
+        tools:layout="@layout/fragment_dash_home" />
+    <fragment
+        android:id="@+id/product"
+        android:name="com.example.messenger.Product"
+        android:label="fragment_product"
+        tools:layout="@layout/fragment_product" />
+    <fragment
+        android:id="@+id/dashSettingsFragment2"
+        android:name="com.example.messenger.DashSettingsFragment"
+        android:label="fragment_dash_settings"
+        tools:layout="@layout/fragment_dash_settings" />
+</navigation>

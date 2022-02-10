@@ -1,11 +1,13 @@
 package com.example.messenger
 
+import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.messenger.data.ProductService
@@ -61,7 +63,7 @@ class Product : Fragment() {
                 for (i in 0..data.size-1) {
 
                   //  stringbuilder.append(data[i].id)
-                    value.add(ItemsViewModel(data[i].title,data[i].description,data[i].price.toString()))
+                    value.add(ItemsViewModel(data[i].title,data[i].description,data[i].price.toString(),data[i].image))
                     //data.add(Products(pro.))
 
 
@@ -73,7 +75,10 @@ class Product : Fragment() {
             }
 
             override fun onFailure(call: Call<List<Products>?>, t: Throwable) {
-                TODO("Not yet implemented")
+
+
+
+                Toast.makeText(context, "Failed to retrieve details " + t.message, Toast.LENGTH_SHORT).show()
             }
         })
 

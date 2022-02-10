@@ -21,6 +21,6 @@ data class Products(
     @SerializedName( "category")
     var category:String,
     @Expose
-    @SerializedName( "Img")
-    var Img:String)
+    @SerializedName( "image")
+    var image:String)
 

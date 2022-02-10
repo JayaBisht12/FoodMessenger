@@ -80,20 +80,15 @@ class SigninnFrag : Fragment() {
 //            if (list[i].userid == uID)
 //                temp = 1
 //
-//        }
+////        }
         if (sharedPreferences?.getString("username", null)!= null) {
             //
-                val i = Intent(this.requireContext(), Dashboard::class.java).apply {
+                val i = Intent(this.requireContext(), Dashboard1::class.java).apply {
                     putExtra("Data", username.text.toString())
                 }
                 Toast.makeText(context, "Logged In Successfully", Toast.LENGTH_SHORT).show()
                 startActivity(i)
                 activity?.finish()
-
-
-
-
-
         }
 
 
@@ -124,17 +119,18 @@ class SigninnFrag : Fragment() {
 // Storing the key and its value as the data fetched from edittext
 
 // Storing the key and its value as the data fetched from edittext
-                                    myEdit?.putString("username", username.getText().toString())
-                                    myEdit?.putString("password", password.getText().toString())
-                                    myEdit?.apply()
+
 
 // Once the changes have been made,
 // we need to commit to apply those changes made,
-// otherwise, it will throw an error
+    val myEdit = sharedPreferences?.edit()
+        myEdit?.putString("username",username.text.toString())
+        myEdit?.putString("password",password.text.toString())
+        myEdit?.apply()
 
                                     //   myEdit?.commit()
                                     val i =
-                                        Intent(this.requireContext(), Dashboard::class.java).apply {
+                                        Intent(this.requireContext(), Dashboard1::class.java).apply {
                                             putExtra("Data", username.text.toString())
                                         }
                                     Toast.makeText(
