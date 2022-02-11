@@ -68,6 +68,9 @@ class DashSettingsFragment : Fragment() {
          ivProfilepic=v.findViewById<ImageView>(R.id.ivProfilepic)
         val cal = Calendar.getInstance()
         val Year = cal.get(Calendar.YEAR)
+        val tvShare=v.findViewById<TextView>(R.id.tvShare)
+        val tvPrivacyPolicy=v.findViewById<TextView>(R.id.tvPrivacyPolicy)
+         val tvTandC=v.findViewById<TextView>(R.id.tvTandC)
 
 
         for( i in 0..list.size-1) {      //Displayed all the data of the user into the dashboard
@@ -125,6 +128,16 @@ class DashSettingsFragment : Fragment() {
                 .show()
 
         }
+        tvShare.setOnClickListener {
+
+
+            val intent = Intent()
+            intent.action = Intent.ACTION_SEND
+            intent.putExtra(Intent.EXTRA_TEXT,"Jaya")
+            intent.type = "text/plain"
+
+            startActivity(Intent.createChooser(intent, "Please select app: "))
+        }
 
         tvChangePass.setOnClickListener {
 
@@ -132,6 +145,18 @@ class DashSettingsFragment : Fragment() {
                 putExtra("Data", id)
             }
             startActivity(intent) //starts the change password activity
+        }
+
+        tvTandC.setOnClickListener{
+
+            val intent = Intent(this.requireContext(),TandCActivity::class.java)
+            startActivity(intent)
+        }
+
+        tvPrivacyPolicy.setOnClickListener{
+
+            val intent = Intent(this.requireContext(), PrivacyPolicyActivity::class.java)
+            startActivity(intent)
         }
 
         bLogOut.setOnClickListener {

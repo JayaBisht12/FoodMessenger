@@ -1,11 +1,14 @@
 package com.example.messenger
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.net.Uri.parse
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -35,7 +38,7 @@ class ProductDescription : AppCompatActivity() {
         val intentValue = intent.getStringExtra("Data")//userid received from the signin fragment
         val i = intentValue.toString().toInt()
         val ivloading=findViewById<ImageView>(R.id.ivloading)
-
+        val bBuyNow=findViewById<Button>(R.id.bBuyNow)
         val pro = ProductService.productsInstance.getProducts()
 
 
@@ -72,7 +75,8 @@ class ProductDescription : AppCompatActivity() {
                tvPcategory.text=data[i].category
                tvPprice.text=data[i].price.toString()
                Picasso.get().load(data[i].image).into(ivPImage)
-               ivloading.setImageURI(Uri.parse(""))
+               ivloading.visibility= View.GONE
+               bBuyNow.visibility=View.VISIBLE
            }
 
            override fun onFailure(call: Call<List<Products>?>, t: Throwable) {
@@ -81,7 +85,22 @@ class ProductDescription : AppCompatActivity() {
            }
        })
 
+        bBuyNow.setOnClickListener{
+            val product=i+1
+            val intent = Intent()
+            intent.action = Intent.ACTION_SEND
+            intent.putExtra(Intent.EXTRA_TEXT,"https://fakestoreapi.com/products/"+product.toString())
+            intent.type = "text/plain"
+
+            startActivity(Intent.createChooser(intent, "Please select app: "))
+
+
+        }
+
+
     }
+
+
 
 
 }
