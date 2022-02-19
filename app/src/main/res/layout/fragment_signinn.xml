@@ -5,7 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SigninnFrag"
-    android:padding="@dimen/margin_signin">
+    android:padding="@dimen/margin_signin"
+    android:background="@drawable/bg"
+    android:backgroundTint="#80FFFFFF"
+    android:backgroundTintMode="src_over">
 
 
     <EditText

@@ -14,10 +14,10 @@ import com.google.android.material.tabs.TabLayout
 class Dashboard1 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+         setTitle("Dashboard")
         setContentView(R.layout.activity_dashboard1)
         val tabLayout=findViewById<TabLayout>(R.id.tabLayout)
-        var navc: NavController? = null
+      //  var navc: NavController? = null
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 val fragmentManager=supportFragmentManager

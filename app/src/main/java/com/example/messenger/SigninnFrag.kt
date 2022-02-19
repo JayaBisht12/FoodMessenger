@@ -124,13 +124,17 @@ class SigninnFrag : Fragment() {
 // Once the changes have been made,
 // we need to commit to apply those changes made,
     val myEdit = sharedPreferences?.edit()
-        myEdit?.putString("username",username.text.toString())
+                                    myEdit?.putString("logout", "0")
+
+
+
+                                    myEdit?.putString("username",username.text.toString())
         myEdit?.putString("password",password.text.toString())
         myEdit?.apply()
 
                                     //   myEdit?.commit()
                                     val i =
-                                        Intent(this.requireContext(), Dashboard1::class.java).apply {
+                                        Intent(this.requireContext(),Dashboard1::class.java).apply {
                                             putExtra("Data", username.text.toString())
                                         }
                                     Toast.makeText(

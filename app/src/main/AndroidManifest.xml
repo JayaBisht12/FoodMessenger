@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
 
     <application
         android:allowBackup="true"
@@ -14,28 +15,29 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Messenger">
         <activity
+            android:name=".RecentUserActivity"
+            android:exported="false" />
+        <activity
+            android:name=".BiometricActivity"
+            android:exported="false" />
+        <activity
             android:name=".TandCActivity"
             android:exported="false" />
         <activity
             android:name=".PrivacyPolicyActivity"
-            android:exported="false" />
-        <activity
-            android:name=".BioAuthenticationActivity"
-            android:exported="false" />
+            android:exported="false" /> <!-- <activity -->
+        <!-- android:name=".BioAuthenticationActivity" -->
+        <!-- android:exported="false" /> -->
         <activity
             android:name=".ProductDescription"
             android:exported="false" />
         <activity
             android:name=".Dashboard1"
             android:exported="false"
-            android:label="@string/title_activity_dashboard1" />
-        <activity
-            android:name=".ui.Dashboard1"
-            android:exported="false"
-            android:label="@string/title_activity_dashboard1" />
-        <activity
-            android:name=".demo"
-            android:exported="false" />
+            android:label="@string/title_activity_dashboard1" /> <!-- <activity -->
+        <!-- android:name=".ui.Dashboard1" -->
+        <!-- android:exported="false" -->
+        <!-- android:label="@string/title_activity_dashboard1" /> -->
         <activity
             android:name=".Dashboard"
             android:exported="false" />

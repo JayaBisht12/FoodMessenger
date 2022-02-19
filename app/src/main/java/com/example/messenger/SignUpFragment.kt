@@ -1,7 +1,11 @@
 package com.example.messenger
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -19,6 +23,7 @@ import android.graphics.BitmapFactory
 
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
+import android.provider.MediaStore
 import java.io.ByteArrayOutputStream
 
 
@@ -61,6 +66,9 @@ class SignUpFragment : Fragment() {
         val Year = cal.get(Calendar.YEAR)
         val Month = cal.get(Calendar.MONTH)
         val Day = cal.get(Calendar.DAY_OF_MONTH)
+        val sharedPreferences: SharedPreferences? =
+            activity?.getSharedPreferences("MySharedPref", Context.MODE_PRIVATE)
+        val myEdit = sharedPreferences?.edit()
 
 
         //val currentDateAndTime: String = simpleDateFormat.format(Date())
@@ -195,17 +203,57 @@ class SignUpFragment : Fragment() {
                                   val stream = ByteArrayOutputStream()
                                   photo.compress(Bitmap.CompressFormat.PNG, 90, stream)
                                   val image: ByteArray = stream.toByteArray()
+                                  var authentication:Boolean=false
+                                  AlertDialog.Builder(this.requireContext())
+                                      .setTitle("Please Confirm!")
+                                      .setMessage("Do you want to use Biometric Authentication for login?") // Specifying a listener allows you to take an action before dismissing the dialog.
+                                      // The dialog is automatically dismissed when a dialog button is clicked.
+                                      .setPositiveButton("No",
+                                          DialogInterface.OnClickListener { dialog, which ->
+                                          authentication=false
+
+                                              val user: User = User("\n" + etName.text.toString(), etUserId.text.toString(),
+                                                  etPassword.text.toString(), image, etDob.text.toString()
+                                                  ,authentication)
+                                              repo.insertUser(user)
+                                              //move to main activity
+                                              myEdit?.putString("username",etUserId.text.toString())
+                                              myEdit?.putString("password",etPassword.text.toString())
+                                              myEdit?.putString("logout", "0")
+                                              myEdit?.apply()
+                                              val intent = Intent(this.requireContext(), Dashboard1::class.java)
+                                              Toast.makeText(context, "Registered successfully", Toast.LENGTH_SHORT).show()
+                                              startActivity(intent)
+                                              activity?.finish()
 
 
-                                  val user: User = User("\n" + etName.text.toString(), etUserId.text.toString(),
-                                      etPassword.text.toString(), image, etDob.text.toString()
-                                  )
-                                  repo.insertUser(user)
-                                  //move to main activity
-                                  val intent = Intent(this.requireContext(), MainActivity::class.java)
-                                  Toast.makeText(context, "Registered successfully", Toast.LENGTH_SHORT).show()
-                                  startActivity(intent)
-                                  activity?.finish()
+                                          })
+                                      .setIcon(R.drawable.alerticon)
+                                      .setNegativeButton("Yes ",
+                                          DialogInterface.OnClickListener { dialog, which ->
+                                              authentication=true
+                                              val user: User = User("\n" + etName.text.toString(), etUserId.text.toString(),
+                                                  etPassword.text.toString(), image, etDob.text.toString()
+                                                  ,authentication)
+                                              repo.insertUser(user)
+                                              //move to main activity
+                                              myEdit?.putString("logout", "0")
+
+
+
+                                              myEdit?.putString("username",etUserId.text.toString())
+                                              myEdit?.putString("password",etPassword.text.toString())
+                                              myEdit?.apply()
+                                              val intent = Intent(this.requireContext(), BiometricActivity::class.java)
+                                              Toast.makeText(context, "Registered successfully", Toast.LENGTH_SHORT).show()
+                                              startActivity(intent)
+                                              activity?.finish()
+
+                                          }) // A null listener allows the button to dismiss the dialog and take no further action.
+
+                                      .show()
+
+
 
                               }
                           }

@@ -4,42 +4,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dyz"
-    tools:context=".HomeFragment">
+    android:background="@drawable/bg"
+
+    tools:context=".HomeFragment"
+    >
 
 
     <Button
         android:id="@+id/bSignin"
-        android:layout_width="151dp"
-        android:layout_height="73dp"
-        android:layout_marginTop="156dp"
+        android:layout_width="133dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="84dp"
         android:backgroundTint="#2A83CA"
         android:text="@string/sign_inn"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <Button
         android:id="@+id/bSignup"
-        android:layout_width="153dp"
-        android:layout_height="65dp"
+        android:layout_width="133dp"
+        android:layout_height="55dp"
         android:backgroundTint="#2A83CA"
         android:text="@string/sign_up"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bSignin" />
+        app:layout_constraintTop_toBottomOf="@+id/bSignin"
+        app:layout_constraintVertical_bias="0.142" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="334dp"
-        android:layout_height="242dp"
-        android:layout_marginTop="112dp"
+        android:layout_width="313dp"
+        android:layout_height="163dp"
+        android:layout_marginTop="168dp"
         android:contentDescription="TODO"
-        android:src="@drawable/logo"
+        android:src="@drawable/corrcetlogo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"

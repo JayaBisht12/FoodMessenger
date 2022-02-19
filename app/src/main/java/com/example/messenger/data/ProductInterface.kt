@@ -5,6 +5,7 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 const val BASE_URL="https://fakestoreapi.com/?"
@@ -14,8 +15,8 @@ interface ProductInterface {
 
   @GET("products")
   fun getProducts():Call<List<Products>>
-  @GET("products/1")
-   fun getProduct():Call<Products>
+  @GET("products/{id}")
+   fun getProduct(@Path("id")id:Int):Call<Products>
 
 
 

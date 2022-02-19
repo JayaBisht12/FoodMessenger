@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -46,7 +48,8 @@ class Product : Fragment() {
         val v: View = inflater.inflate(R.layout.fragment_product, container, false)
         val recyclerview = v.findViewById<RecyclerView>(R.id.recyclerview)
         val value= ArrayList<ItemsViewModel>()
-
+        val tvLoading=v.findViewById<TextView>(R.id.tvLoading)
+         val pBar=v.findViewById<ProgressBar>(R.id.pBar)
         // this creates a vertical layout Manager
         recyclerview.layoutManager = LinearLayoutManager(context)
         val pro = ProductService.productsInstance.getProducts()
@@ -56,6 +59,7 @@ class Product : Fragment() {
                 response: Response<List<Products>?>
             ) {
                 val data=response.body()!!//data from the server
+
 
 
 
@@ -72,12 +76,15 @@ class Product : Fragment() {
 
                 // Setting the Adapter with the recyclerview
                 recyclerview.adapter = adapter
+                tvLoading.visibility=View.GONE
+                pBar.visibility=View.GONE
+                recyclerview.visibility=View.VISIBLE
             }
 
             override fun onFailure(call: Call<List<Products>?>, t: Throwable) {
 
-
-
+                tvLoading.text="Oops Something went wrong!"
+                pBar.visibility=View.GONE
                 Toast.makeText(context, "Failed to retrieve details " + t.message, Toast.LENGTH_SHORT).show()
             }
         })

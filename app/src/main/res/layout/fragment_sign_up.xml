@@ -10,7 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_signup"
         android:fitsSystemWindows="true"
-        tools:context=".SignUpFragment">
+        tools:context=".SignUpFragment"
+   >
 
         <TextView
             android:id="@+id/textView3"
@@ -191,7 +192,7 @@
             android:layout_width="63dp"
             android:layout_height="44dp"
             android:layout_marginTop="@dimen/margin_temp_widget"
-            android:src="@drawable/cal"
+            android:src="@drawable/calc"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.615"
             app:layout_constraintStart_toEndOf="@+id/etDob"

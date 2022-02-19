@@ -9,14 +9,12 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.InputType
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.messenger.db.AppDatabase
 import com.example.messenger.db.UserRepository
@@ -59,7 +57,7 @@ class DashSettingsFragment : Fragment() {
         val sharedPreferences: SharedPreferences? =
             activity?.getSharedPreferences("MySharedPref", AppCompatActivity.MODE_PRIVATE)
         val myEdit = sharedPreferences?.edit()
-        val name = myEdit
+       // val name = myEdit
          id=sharedPreferences?.getString("username", null)!!
         val bLogOut= v.findViewById<Button>(R.id.bLogOut)
         val tvChangePass=v.findViewById<TextView>(R.id.tvChangePass)
@@ -71,6 +69,9 @@ class DashSettingsFragment : Fragment() {
         val tvShare=v.findViewById<TextView>(R.id.tvShare)
         val tvPrivacyPolicy=v.findViewById<TextView>(R.id.tvPrivacyPolicy)
          val tvTandC=v.findViewById<TextView>(R.id.tvTandC)
+        val bEdit=v.findViewById<ImageButton>(R.id.bEdit)
+        val toggleButton=v.findViewById<ToggleButton>(R.id.toggleButton)
+
 
 
         for( i in 0..list.size-1) {      //Displayed all the data of the user into the dashboard
@@ -84,14 +85,79 @@ class DashSettingsFragment : Fragment() {
                     imgbytes.size
                 )
                 ivProfilepic.setImageBitmap(bitmap)
+                if(list[i].Authentication==true){
+                    toggleButton.text = toggleButton.textOn
+                    toggleButton.setChecked(true)
+                }else{
+                    toggleButton.text = toggleButton.textOff
 
+                }
             }
         }
+        toggleButton.setOnClickListener{
+            val repo = UserRepository(this.requireContext())
+
+
+            if(toggleButton.isChecked){
+
+                repo.updateAuthentication( id,true)
+                toggleButton.text = toggleButton.textOn
+
+            }
+            else{
+                repo.updateAuthentication( id,false)
+                toggleButton.text = toggleButton.textOff
+            }
+
+
+        }
+        bEdit.setOnClickListener{
+
+           // fun showdialog(){
+                val builder: AlertDialog.Builder = android.app.AlertDialog.Builder(this.requireContext())
+                builder.setTitle("Change name")
+
+// Set up the input
+                val input = EditText(this.requireContext())
+// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                input.setHint("Enter name")
+                input.inputType = InputType.TYPE_CLASS_TEXT
+                builder.setView(input)
+
+// Set up the buttons
+                builder.setPositiveButton("Change", DialogInterface.OnClickListener { dialog, which ->
+                    // Here you get get input text from the Edittext
+
+                   if(input.text.toString().length>0){
+
+                       val repo = UserRepository(this.requireContext())
+
+                       repo.updateUsername( id,input.text.toString())
+                       tvUsername.text = input.text.toString()
+                   Toast.makeText(this.requireContext(),"Changed successfully",Toast.LENGTH_SHORT)}
+                    else{
+
+                        input.error="Name is required"
+                       Toast.makeText(this.requireContext(),"Name is required",Toast.LENGTH_SHORT)
+                    }
+
+                })
+
+                builder.setNegativeButton("Cancel", DialogInterface.OnClickListener { dialog, which -> dialog.cancel() })
+
+                builder.show()
+           // }
+
+
+
+        }
+
         ivProfilepic.setOnClickListener{
 
 
             AlertDialog.Builder(this.requireContext())
                 .setTitle("Alert")
+
                 .setMessage("Change profile picture?") // Specifying a listener allows you to take an action before dismissing the dialog.
                 // The dialog is automatically dismissed when a dialog button is clicked.
                 .setPositiveButton("Remove",DialogInterface.OnClickListener { dialog, which ->
@@ -116,7 +182,7 @@ class DashSettingsFragment : Fragment() {
 
 
                 })
-                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setIcon(R.drawable.alerticon)
                 .setNegativeButton("Upload/Change ",
                     DialogInterface.OnClickListener { dialog, which ->
                         val image:Intent=Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
@@ -128,6 +194,8 @@ class DashSettingsFragment : Fragment() {
                 .show()
 
         }
+
+
         tvShare.setOnClickListener {
 
 
@@ -149,26 +217,33 @@ class DashSettingsFragment : Fragment() {
 
         tvTandC.setOnClickListener{
 
-            val intent = Intent(this.requireContext(),TandCActivity::class.java)
+            val intent = Intent(this.requireContext(),TandCActivity::class.java).apply {
+                putExtra("flag","0")
+            }
             startActivity(intent)
         }
 
         tvPrivacyPolicy.setOnClickListener{
-
-            val intent = Intent(this.requireContext(), PrivacyPolicyActivity::class.java)
+            val intent = Intent(this.requireContext(),TandCActivity::class.java).apply {
+                putExtra("flag","1")
+            }
             startActivity(intent)
         }
 
         bLogOut.setOnClickListener {
 
-            val intent = Intent(this.requireContext(),MainActivity::class.java)
+            val intent = Intent(this.requireContext(),RecentUserActivity::class.java)
+            myEdit?.putString("logout", "1")
+
+            myEdit?.apply()
+
 
             Toast.makeText(context,"Logged Out Successfully",Toast.LENGTH_SHORT).show()
-            myEdit?.putString("username", null)
-            myEdit?.putString("password", null)
-            myEdit?.apply()
             startActivity(intent)
-           activity?.finish()
+            activity?.finish()
+
+
+
         }
 
 

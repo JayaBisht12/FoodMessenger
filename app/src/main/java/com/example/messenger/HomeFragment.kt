@@ -37,7 +37,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        getActivity()?.setTitle("Talker")
+        getActivity()?.setTitle("Happy Shop")
 
         // Inflate the layout for this fragment
         val v:View = inflater.inflate(R.layout.fragment_home, container, false)

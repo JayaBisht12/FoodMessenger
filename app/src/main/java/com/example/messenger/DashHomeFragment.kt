@@ -58,7 +58,7 @@ class DashHomeFragment : Fragment() {
         val sharedPreferences: SharedPreferences? =
             activity?.getSharedPreferences("MySharedPref", Context.MODE_PRIVATE)
         val myEdit = sharedPreferences?.edit()  // Creating an Editor object to edit(write to the file)
-        val name = myEdit
+        //val name = myEdit
         var db: UserDAO = AppDatabase.getInstance(context)?.userDao()!!
         val list = db.getAllusers()
          val id=sharedPreferences?.getString("username", null)
@@ -74,7 +74,7 @@ class DashHomeFragment : Fragment() {
                 tvDob.text = list[i].userDob
                 tvUserId.text = list[i].userid
                 val imgbytes: ByteArray = list[i].userImage
-                val bitmap = BitmapFactory.decodeByteArray(
+                val bitmap = BitmapFactory.decodeByteArray( //converting the byte array into image
                     imgbytes, 0,
                     imgbytes.size
                 )
