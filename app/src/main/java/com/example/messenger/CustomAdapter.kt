@@ -42,11 +42,13 @@ class CustomAdapter(private val mList: List<ItemsViewModel>) : RecyclerView.Adap
 
         // sets the image to the imageview from our itemHolder class
         holder.imageView.setImageResource(R.drawable.icon)
-
+         if(ItemsViewModel.title.length>50){
+             holder.tvTitle.text = ItemsViewModel.title.take(70)+"...."}
+        else{  holder.tvTitle.text = ItemsViewModel.title.take(70)}
         // sets the text to the textview from our itemHolder class
-        holder.tvTitle.text = ItemsViewModel.title
-        holder.tvDescription.text=ItemsViewModel.description
-        holder.tvPrice.text=ItemsViewModel.Price
+
+        holder.tvDescription.text=ItemsViewModel.description.take(100)+"....."
+        holder.tvPrice.text="$ "+ItemsViewModel.Price
         //   val button:Button=Button(mContext)
         Picasso.get().load(ItemsViewModel.image).into(holder.imageView)
 

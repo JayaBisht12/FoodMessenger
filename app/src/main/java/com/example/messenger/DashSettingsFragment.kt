@@ -217,14 +217,14 @@ class DashSettingsFragment : Fragment() {
 
         tvTandC.setOnClickListener{
 
-            val intent = Intent(this.requireContext(),TandCActivity::class.java).apply {
+            val intent = Intent(this.requireContext(),demoTandC::class.java).apply {
                 putExtra("flag","0")
             }
             startActivity(intent)
         }
 
         tvPrivacyPolicy.setOnClickListener{
-            val intent = Intent(this.requireContext(),TandCActivity::class.java).apply {
+            val intent = Intent(this.requireContext(),demoTandC::class.java).apply {
                 putExtra("flag","1")
             }
             startActivity(intent)

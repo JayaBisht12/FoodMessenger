@@ -1,8 +1,6 @@
 package com.example.messenger
 
-import android.content.ContentValues.TAG
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.messenger.data.ProductService
 import retrofit2.Call
 import retrofit2.Response
-import javax.security.auth.callback.Callback
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -48,7 +45,7 @@ class Product : Fragment() {
         val v: View = inflater.inflate(R.layout.fragment_product, container, false)
         val recyclerview = v.findViewById<RecyclerView>(R.id.recyclerview)
         val value= ArrayList<ItemsViewModel>()
-        val tvLoading=v.findViewById<TextView>(R.id.tvLoading)
+        val tvLoading=v.findViewById<TextView>(R.id.load)
          val pBar=v.findViewById<ProgressBar>(R.id.pBar)
         // this creates a vertical layout Manager
         recyclerview.layoutManager = LinearLayoutManager(context)

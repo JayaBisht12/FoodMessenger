@@ -10,9 +10,10 @@
         <entry key="app/src/main/res/layout/activity_dashboard.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_dashboard1.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_demo.xml" value="0.18614130434782608" />
+        <entry key="app/src/main/res/layout/activity_demo_tand_c.xml" value="0.2346014492753623" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.23125" />
         <entry key="app/src/main/res/layout/activity_privacy_policy.xml" value="0.21784420289855072" />
-        <entry key="app/src/main/res/layout/activity_product_description.xml" value="0.125" />
+        <entry key="app/src/main/res/layout/activity_product_description.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_recent_user.xml" value="0.20516304347826086" />
         <entry key="app/src/main/res/layout/activity_tand_cactivity.xml" value="0.21784420289855072" />
         <entry key="app/src/main/res/layout/activitytemp.xml" value="0.19746376811594202" />
@@ -27,7 +28,7 @@
         <entry key="app/src/main/res/layout/fragment_product.xml" value="0.18614130434782608" />
         <entry key="app/src/main/res/layout/fragment_sign_in.xml" value="0.23125" />
         <entry key="app/src/main/res/layout/fragment_sign_up.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_signinn.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/fragment_signinn.xml" value="0.25" />
         <entry key="app/src/main/res/layout/sample.xml" value="0.13541666666666666" />
         <entry key="app/src/main/res/layout/usercardview.xml" value="0.20516304347826086" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.246875" />

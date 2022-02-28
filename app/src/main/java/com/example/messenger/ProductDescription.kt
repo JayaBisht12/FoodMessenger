@@ -1,27 +1,15 @@
 package com.example.messenger
 
 import android.content.Intent
-import android.graphics.Bitmap
-import android.net.Uri
-import android.net.Uri.parse
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.View
 import android.widget.*
 import com.example.messenger.data.ProductService
-import com.google.android.gms.common.util.HttpUtils.parse
-import com.squareup.okhttp.HttpUrl.parse
 import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.http.Url
-import java.io.ByteArrayOutputStream
-import java.net.HttpCookie.parse
-import java.net.URI
-import java.net.URL
-import java.util.logging.Level.parse
 
 class ProductDescription : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +29,7 @@ class ProductDescription : AppCompatActivity() {
         val tvPprice=findViewById<TextView>(R.id.tvPprice)
         val intentValue = intent.getStringExtra("Data")//userid received from the recycler view(products fragment)
         val i = intentValue.toString().toInt()+1
-        val tvLoading=findViewById<TextView>(R.id.tvLoading)
+        val tvLoading=findViewById<TextView>(R.id.load)
         val bBuyNow=findViewById<Button>(R.id.bBuyNow)
         val pro = ProductService.productsInstance.getProduct(i)
         val pBar=findViewById<ProgressBar>(R.id.pBar)
@@ -55,7 +43,7 @@ class ProductDescription : AppCompatActivity() {
                tvPname.text=data.title
                 tvPdescription.text=data.description
                tvPcategory.text=data.category
-               tvPprice.text=data.price.toString()
+               tvPprice.text="$ "+data.price.toString()
                 Picasso.get().load(data.image).into(ivPImage)
                 tvLoading.visibility= View.GONE
                 pBar.visibility=View.GONE

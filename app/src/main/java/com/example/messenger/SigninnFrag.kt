@@ -63,6 +63,9 @@ class SigninnFrag : Fragment() {
 
         val tvSignUp = v.findViewById<TextView>(R.id.tvSignUp)
 
+        val bFb=v.findViewById<Button>(R.id.bFb)
+        val bGooglee=v.findViewById<Button>(R.id.bGooglee)
+
         // val  preferences: SharedPreferences? = this.getActivity()?.getSharedPreferences("pref", Context.MODE_PRIVATE)
         //val editor=preferences?.edit()
         val sharedPreferences: SharedPreferences? =
