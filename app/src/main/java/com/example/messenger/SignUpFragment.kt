@@ -25,6 +25,7 @@ import android.graphics.BitmapFactory
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
+import android.provider.ContactsContract.DisplayNameSources.EMAIL
 import android.provider.MediaStore
 import android.util.Log
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -33,8 +34,17 @@ import java.io.ByteArrayOutputStream
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import androidx.core.app.ActivityCompat.startActivityForResult
+import com.facebook.CallbackManager
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.common.api.ApiException
+import com.facebook.FacebookException
+
+import com.facebook.login.LoginResult
+
+import com.facebook.FacebookCallback
+
+
+
 
 
 
@@ -82,7 +92,7 @@ class SignUpFragment : Fragment() {
         val sharedPreferences: SharedPreferences? =
             activity?.getSharedPreferences("MySharedPref", Context.MODE_PRIVATE)
         val myEdit = sharedPreferences?.edit()
-        val bFacebook = v.findViewById<Button>(R.id.bFacebook)
+        val loginButton = v.findViewById<Button>(R.id.bFacebook)
         val bGoogle=v.findViewById<Button>(R.id.bGoogle)
         var  mGoogleSignInClient: GoogleSignInClient
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -95,20 +105,33 @@ class SignUpFragment : Fragment() {
         // Check for existing Google Sign In account, if the user is already signed in
 // the GoogleSignInAccount will be non-null.
         val account = GoogleSignIn.getLastSignedInAccount(this.requireContext())
+         val  callbackManager = CallbackManager.Factory.create()
 
-        //val currentDateAndTime: String = simpleDateFormat.format(Date())
-        //var date:String = Date().toString()
-      //  val date = LocalDate.now(yourTimeZone)
-        bGoogle.setOnClickListener{
+        loginButton.setOnClickListener{
 
-            val signInIntent: Intent = mGoogleSignInClient.getSignInIntent()
-            startActivityForResult(signInIntent, 0)
-            //updateUI(account)
-            signIn()
+            val intent = Intent(this.requireContext(), FacebookSignUp::class.java)
+//            Toast.makeText(context, "Registered successfully", Toast.LENGTH_SHORT).show()
+            startActivity(intent)
+            activity?.finish()
 
 
 
         }
+
+
+
+        bGoogle.setOnClickListener{
+
+            val intent = Intent(this.requireContext(), GoogleSignUp::class.java)
+//            Toast.makeText(context, "Registered successfully", Toast.LENGTH_SHORT).show()
+            startActivity(intent)
+            activity?.finish()
+
+
+
+        }
+
+
         ivDOB.setOnClickListener {
             var flag=0
             val dpd = DatePickerDialog(

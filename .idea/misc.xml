@@ -10,7 +10,10 @@
         <entry key="app/src/main/res/layout/activity_dashboard.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_dashboard1.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_demo.xml" value="0.18614130434782608" />
+        <entry key="app/src/main/res/layout/activity_demo_facebook.xml" value="0.22644927536231885" />
         <entry key="app/src/main/res/layout/activity_demo_tand_c.xml" value="0.2346014492753623" />
+        <entry key="app/src/main/res/layout/activity_facebook_sign_up.xml" value="0.23007246376811594" />
+        <entry key="app/src/main/res/layout/activity_google_sign_up.xml" value="0.23369565217391305" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.23125" />
         <entry key="app/src/main/res/layout/activity_privacy_policy.xml" value="0.21784420289855072" />
         <entry key="app/src/main/res/layout/activity_product_description.xml" value="0.25" />
