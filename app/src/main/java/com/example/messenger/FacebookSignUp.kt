@@ -57,6 +57,7 @@ class FacebookSignUp : AppCompatActivity() {
 //}
 
     callbackManager = CallbackManager.Factory.create()
+    LoginManager.getInstance().logOut()
 
 
     if (isLoggedIn()) {
@@ -277,9 +278,13 @@ class FacebookSignUp : AppCompatActivity() {
  //   }
 }
 
-private fun LoginManager.registerCallback(callbackManager: CallbackManager, callback: FacebookCallback<LoginResult?>) {
+internal fun LoginManager.registerCallback(callbackManager: CallbackManager, callback: FacebookCallback<LoginResult?>) {
 
 }
+
+//fun LoginManager.registerCallback(callbackManager: CallbackManager, callback: FacebookCallback<LoginResult?>) {
+//
+//}
 
 //private fun LoginManager.registerCallback(callbackManager: CallbackManager, callback: FacebookCallback<LoginResult?>) {
 //

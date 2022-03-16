@@ -69,8 +69,9 @@ class UserRepository(context: Context?) {
         override fun doInBackground(vararg params: User): Void? {
             usersDao.insert(params[0])
             val list = usersDao.getAllusers();
-          Log.v("UserRepository","databases value "+list)
-
+            for(i in 0 ..list.size-1) {
+                Log.v("\n UserRepository", "databases value " + list[i])
+            }
 
 
             return null

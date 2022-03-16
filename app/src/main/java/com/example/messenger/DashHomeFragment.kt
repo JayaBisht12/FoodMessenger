@@ -1,5 +1,6 @@
 package com.example.messenger
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
@@ -14,14 +15,32 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.messenger.db.AppDatabase
 import com.example.messenger.db.UserRepository
+import com.squareup.picasso.Picasso
 import java.io.ByteArrayOutputStream
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import android.graphics.drawable.BitmapDrawable
+import android.icu.number.NumberFormatter.with
+import android.icu.number.NumberRangeFormatter.with
+import android.media.Image
+import android.widget.*
+import androidx.core.graphics.drawable.toBitmap
+import com.bumptech.glide.Glide.with
+import com.squareup.picasso.Picasso.LoadedFrom
+import kotlin.annotation.Target as Target1
+import com.facebook.GraphResponse
+
+import org.json.JSONObject
+
+import com.facebook.GraphRequest
+import com.facebook.AccessToken
+import com.facebook.login.widget.ProfilePictureView
+import jp.wasabeef.picasso.transformations.CropCircleTransformation
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -38,6 +57,15 @@ class DashHomeFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    lateinit var id:String
+    lateinit var list : User
+    lateinit var tvName :TextView
+    lateinit var ivProfilepic:ImageView
+
+    lateinit var tvDob :TextView
+   lateinit var tvUserId :TextView
+   lateinit var FbProfile:ProfilePictureView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -48,6 +76,7 @@ class DashHomeFragment : Fragment() {
 
 
 
+    @SuppressLint("WrongThread")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -59,27 +88,40 @@ class DashHomeFragment : Fragment() {
             activity?.getSharedPreferences("MySharedPref", Context.MODE_PRIVATE)
         val myEdit = sharedPreferences?.edit()  // Creating an Editor object to edit(write to the file)
         //val name = myEdit
+        val intentValue = activity?.intent?.getStringExtra("login")
         var db: UserDAO = AppDatabase.getInstance(context)?.userDao()!!
-        val list = db.getAllusers()
-         val id=sharedPreferences?.getString("username", null)
-        val tvName = v.findViewById<TextView>(R.id.tvName)
-        val ivProfilepic = v.findViewById<ImageView>(R.id.ivProfilepic)
-        val tvDob = v.findViewById<TextView>(R.id.tvDOB)
-        val tvUserId = v.findViewById<TextView>(R.id.tvUserId)
+        FbProfile=v.findViewById<ProfilePictureView>(R.id.image)
+         id= sharedPreferences?.getString("username", null).toString()
+        list = db.getuser(id.toString())
+        tvName = v.findViewById<TextView>(R.id.tvName)
+         ivProfilepic = v.findViewById<ImageView>(R.id.ivProfilepic)
 
+         tvDob = v.findViewById<TextView>(R.id.tvDOB)
+         tvUserId = v.findViewById<TextView>(R.id.tvUserId)
 
-        for (i in 0..list.size - 1) {      //Displayed all the data of the user into the dashboard
-            if (list[i].userid == id) {  //id= received from the signin fragment and converted the id into string
-                tvName.text = list[i].username
-                tvDob.text = list[i].userDob
-                tvUserId.text = list[i].userid
-                val imgbytes: ByteArray = list[i].userImage
+        if(intentValue=="Google")
+
+        {
+            Toast.makeText(context, "google function", Toast.LENGTH_SHORT).show()
+            Google()
+        }
+        if(intentValue=="Facebook")
+        {
+            Facebook()
+        }
+
+        if(intentValue==null)
+        {
+            if (list.userid == id) {  //id= received from the signin fragment and converted the id into string
+                tvName.text = list.username
+                tvDob.text = list.userDob
+                tvUserId.text = list.userid
+                val imgbytes: ByteArray = list.userImage
                 val bitmap = BitmapFactory.decodeByteArray( //converting the byte array into image
                     imgbytes, 0,
                     imgbytes.size
                 )
                 ivProfilepic.setImageBitmap(bitmap)
-
             }
         }
 
@@ -88,6 +130,137 @@ class DashHomeFragment : Fragment() {
 
 }
 
+    private fun Facebook() {
+
+        val accessToken = AccessToken.getCurrentAccessToken()
+        val isLoggedIn = accessToken != null && !accessToken.isExpired
+        if (list.userid == id) {  //id= received from the signin fragment and converted the id into string
+            tvName.text = list.username
+            tvDob.text = list.userDob
+            tvUserId.text = list.userid
+            val imgbytes: ByteArray = list.userImage
+            val bitmap = BitmapFactory.decodeByteArray( //converting the byte array into image
+                imgbytes, 0,
+                imgbytes.size
+            )
+            ivProfilepic.setImageBitmap(bitmap)
+            val photo = BitmapFactory.decodeResource(
+                resources,
+                R.drawable.icon
+            )
+            val stream = ByteArrayOutputStream()
+            photo.compress(Bitmap.CompressFormat.PNG, 90, stream)
+            val image: ByteArray = stream.toByteArray()
+            if(isequal(image,list.userImage))
+            {
+                val request = GraphRequest.newMeRequest(
+                    accessToken,
+                    object : GraphRequest.GraphJSONObjectCallback {
+                        override fun onCompleted(
+                            `object`: JSONObject?,
+                            response: GraphResponse?
+                        ) {
+                            ivProfilepic.visibility=View.INVISIBLE
+                            val pic  = `object`?.getString("id").toString()
+                            FbProfile.setProfileId(pic);// Application code
+//                    Picasso.get()
+//                        .load(
+//                          "http://graph.facebook.com/${`object`?.getString("id")}/picture?width=120&height=120&redirect=false"
+//                        ) //extract as User instance method
+//                        .transform(CropCircleTransformation())
+//                        .resize(120, 120)
+//                        .into(FbProfile)
+
+                        }
+                    })
+                val parameters = Bundle()
+                parameters.putString("fields", "id,name,link")
+                request.parameters = parameters
+                request.executeAsync()
+            }
+
+
+            else{
+                ivProfilepic.setImageBitmap(bitmap)
+                FbProfile.visibility=View.INVISIBLE
+
+            }
+
+        }
+
+    }
+
+    fun Google(){
+        val acct = GoogleSignIn.getLastSignedInAccount(requireActivity())
+        if (acct != null) {
+            val personName = acct.displayName
+            val personGivenName = acct.givenName
+            val personFamilyName = acct.familyName
+            val personEmail = acct.email
+            val personId = acct.id
+            val personPhoto = acct.photoUrl
+
+        }
+
+
+//        for (i in 0..list.size - 1) {      //Displayed all the data of the user into the dashboard
+        if (list.userid == id) {  //id= received from the signin fragment and converted the id into string
+            tvName.text = list.username
+            tvDob.text = list.userDob
+            tvUserId.text = list.userid
+            val imgbytes: ByteArray = list.userImage
+            val bitmap = BitmapFactory.decodeByteArray( //converting the byte array into image
+                imgbytes, 0,
+                imgbytes.size
+            )
+            val photo = BitmapFactory.decodeResource(
+                resources,
+                R.drawable.icon
+            )
+            val stream = ByteArrayOutputStream()
+            photo.compress(Bitmap.CompressFormat.PNG, 90, stream)
+            val image: ByteArray = stream.toByteArray()
+//                if(image[0]==list.userImage[0]&&image[image.size-1]==list.userImage[list.userImage.size-1])
+            if(isequal(image,list.userImage)&&acct!=null)
+            {
+                Picasso.get().load(acct?.photoUrl).into(ivProfilepic)
+            }
+
+
+            else{
+                ivProfilepic.setImageBitmap(bitmap)
+
+            }
+
+//               ivProfilepic.setImageBitmap(bitmap)
+
+
+
+//                if(ivProfilepic.getDrawingCache()!=null) {
+//                    val bmp: Bitmap = ivProfilepic.getDrawingCache()!!
+//
+//                    val stream: ByteArrayOutputStream = ByteArrayOutputStream()
+//                    bmp.compress(Bitmap.CompressFormat.PNG, 98, stream)
+//                    var byteArray: kotlin.ByteArray? = stream.toByteArray()
+//                    bmp.recycle()
+//                }
+
+        }
+//        }
+
+    }
+
+    fun isequal(newArray:ByteArray,oldArray:ByteArray):Boolean
+    {
+        for (i in 0..63) {
+            if (newArray[i] != oldArray[i]) {
+                return false
+            }
+        }
+
+        return true
+
+    }
 
 
     companion object {

@@ -10,7 +10,9 @@ import com.google.api.Authentication
 
 
 @Entity(tableName = "user_table")
+
 data class User(
+
     @ColumnInfo(name = "username")val username:String,
     @PrimaryKey @ColumnInfo(name = "userid")val userid:String,
     @ColumnInfo(name = "userPassword") var userPassword:String,

@@ -13,6 +13,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.messenger.db.UserRepository
+import com.facebook.login.LoginManager
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.api.Authentication
 import de.hdodenhof.circleimageview.CircleImageView
 
@@ -31,7 +34,9 @@ class RecentUserActivity : AppCompatActivity() {
             this?.getSharedPreferences("MySharedPref", Context.MODE_PRIVATE)
         val myEdit = sharedPreferences?.edit()  // Creating an Editor object to edit(write to the file)
         //val name = myEdit
-        var flag=  sharedPreferences?.getString("logout",null).toString().toInt()
+        var logout=  sharedPreferences?.getString("logout","2").toString()
+        var flag: Int = logout.toInt()
+
         val id=sharedPreferences?.getString("username", null).toString()
         val repo = UserRepository(this)
         val user= repo.getuser(id)
@@ -64,6 +69,12 @@ class RecentUserActivity : AppCompatActivity() {
                         myEdit?.putString("username", null)
                         myEdit?.putString("password", null)
                         myEdit?.apply()
+                        LoginManager.getInstance().logOut()
+                        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                            .requestEmail()
+                            .build()
+                        val mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
+                        mGoogleSignInClient.signOut()
 
                         val i = Intent(this, MainActivity::class.java)
                         startActivity(i)

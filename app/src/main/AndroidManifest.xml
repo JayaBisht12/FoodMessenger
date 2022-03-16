@@ -15,6 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Messenger">
         <activity
+            android:name=".fbb"
+            android:exported="false" />
+        <activity
+            android:name=".fbSignin"
+            android:exported="false" />
+        <activity
             android:name=".DemoFacebook"
             android:exported="false" />
         <activity

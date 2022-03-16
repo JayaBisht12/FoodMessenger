@@ -29,9 +29,9 @@
     <string name="confirm_password">Confirm Password</string>
 
 
-    <string name="facebook_app_id">1234</string>
-    <string name="fb_login_protocol_scheme">fb1234</string>
-    <string name="facebook_client_token">56789</string>
+    <string name="fb_login_protocol_scheme">fb1958853887650962</string>
+    <string name="facebook_client_token">e6a4fda38a737acd689a96c062a7c876</string>
 
+    <string name="facebook_app_id">1958853887650962</string>
 
 </resources>

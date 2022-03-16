@@ -17,8 +17,15 @@ import com.example.messenger.db.AppDatabase
 import android.content.SharedPreferences
 
 import android.content.Context.MODE_PRIVATE
+import com.facebook.CallbackManager
+import com.facebook.FacebookException
 
+import com.facebook.login.LoginResult
 
+import com.facebook.FacebookCallback
+
+import com.facebook.login.LoginManager
+import java.util.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -66,6 +73,8 @@ class SigninnFrag : Fragment() {
         val bFb=v.findViewById<Button>(R.id.bFb)
         val bGooglee=v.findViewById<Button>(R.id.bGooglee)
 
+
+
         // val  preferences: SharedPreferences? = this.getActivity()?.getSharedPreferences("pref", Context.MODE_PRIVATE)
         //val editor=preferences?.edit()
         val sharedPreferences: SharedPreferences? =
@@ -94,7 +103,27 @@ class SigninnFrag : Fragment() {
                 activity?.finish()
         }
 
+        bGooglee.setOnClickListener{
 
+            val intent = Intent(this.requireContext(), GoogleSignUp::class.java).apply {
+                putExtra("activity","Signin")
+            }
+       // Toast.makeText(context, "Registered successfully", Toast.LENGTH_SHORT).show()
+            startActivity(intent)
+            activity?.finish()
+
+        }
+
+      bFb.setOnClickListener{
+
+
+        val i =  Intent(this.requireContext(), fbSignin::class.java).apply{
+            putExtra("activity","signin")
+        }
+          startActivity(i)
+          activity?.finish()
+
+      }
 
         bSignIn.setOnClickListener {
 
@@ -190,6 +219,7 @@ class SigninnFrag : Fragment() {
 
         return v
     }
+
 
     companion object {
         /**

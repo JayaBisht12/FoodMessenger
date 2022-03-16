@@ -1,5 +1,6 @@
 package com.example.messenger
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
@@ -18,8 +19,21 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.messenger.db.AppDatabase
 import com.example.messenger.db.UserRepository
+import com.facebook.login.LoginManager
 import java.io.ByteArrayOutputStream
 import java.util.*
+import androidx.annotation.NonNull
+import com.facebook.AccessToken
+import com.facebook.GraphRequest
+import com.facebook.GraphResponse
+import com.facebook.login.widget.ProfilePictureView
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
+import com.squareup.picasso.Picasso
+import org.json.JSONObject
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -45,6 +59,8 @@ class DashSettingsFragment : Fragment() {
     }
     lateinit var ivProfilepic:ImageView
     lateinit var id:String
+    lateinit var FbImage:ProfilePictureView
+    @SuppressLint("WrongThread")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -71,7 +87,15 @@ class DashSettingsFragment : Fragment() {
          val tvTandC=v.findViewById<TextView>(R.id.tvTandC)
         val bEdit=v.findViewById<ImageButton>(R.id.bEdit)
         val toggleButton=v.findViewById<ToggleButton>(R.id.toggleButton)
-
+        FbImage=v.findViewById<ProfilePictureView>(R.id.image)
+//        Picasso.with(this)
+//            .load(
+//                "https://graph.facebook.com/v2.2/" + user.getUserId()
+//                    .toString() + "/picture?height=120&type=normal"
+//            ) //extract as User instance method
+//            .transform(CropCircleTransformation())
+//            .resize(120, 120)
+//            .into(profilePic)
 
 
         for( i in 0..list.size-1) {      //Displayed all the data of the user into the dashboard
@@ -92,6 +116,85 @@ class DashSettingsFragment : Fragment() {
                     toggleButton.text = toggleButton.textOff
 
                 }
+                FbImage.visibility=View.INVISIBLE
+                val photo = BitmapFactory.decodeResource(
+                    resources,
+                    R.drawable.icon
+                )
+                val stream = ByteArrayOutputStream()
+                photo.compress(Bitmap.CompressFormat.PNG, 90, stream)
+                val image: ByteArray = stream.toByteArray()
+//                if(image[0]==list.userImage[0]&&image[image.size-1]==list.userImage[list.userImage.size-1])
+                val acct = GoogleSignIn.getLastSignedInAccount(requireActivity())
+                if(isequal(image,list[i].userImage)&&acct!=null)
+                {
+                    Picasso.get().load(acct?.photoUrl).into(ivProfilepic)
+                }
+
+                else if(activity?.intent?.getStringExtra("login").toString()=="Facebook"){
+
+
+                    val imgbytes: ByteArray = list[i].userImage
+                    val bitmap = BitmapFactory.decodeByteArray( //converting the byte array into image
+                        imgbytes, 0,
+                        imgbytes.size
+                    )
+                    ivProfilepic.setImageBitmap(bitmap)
+                    val photo = BitmapFactory.decodeResource(
+                        resources,
+                        R.drawable.icon
+                    )
+                    val stream = ByteArrayOutputStream()
+                    photo.compress(Bitmap.CompressFormat.PNG, 90, stream)
+                    val image: ByteArray = stream.toByteArray()
+                    if(isequal(image,list[i].userImage))
+                    {
+                        val accessToken = AccessToken.getCurrentAccessToken()
+                        val isLoggedIn = accessToken != null && !accessToken.isExpired
+
+
+                        val request = GraphRequest.newMeRequest(
+                            accessToken,
+                            object : GraphRequest.GraphJSONObjectCallback {
+                                override fun onCompleted(
+                                    `object`: JSONObject?,
+                                    response: GraphResponse?
+                                ) {
+                                    ivProfilepic.visibility=View.INVISIBLE
+                                    val pic  = `object`?.getString("id").toString()
+                                    FbImage.setProfileId(pic);// Application code
+//                    Picasso.get()
+//                        .load(
+//                          "http://graph.facebook.com/${`object`?.getString("id")}/picture?width=120&height=120&redirect=false"
+//                        ) //extract as User instance method
+//                        .transform(CropCircleTransformation())
+//                        .resize(120, 120)
+//                        .into(FbProfile)
+
+                                }
+                            })
+                        val parameters = Bundle()
+                        parameters.putString("fields", "id,name,link")
+                        request.parameters = parameters
+                        request.executeAsync()
+                    }
+
+
+                    else{
+                        ivProfilepic.setImageBitmap(bitmap)
+                        FbImage.visibility=View.INVISIBLE
+
+                    }
+
+                }
+
+
+
+                else{
+                    ivProfilepic.setImageBitmap(bitmap)
+
+                }
+
             }
         }
         toggleButton.setOnClickListener{
@@ -151,6 +254,53 @@ class DashSettingsFragment : Fragment() {
 
 
         }
+
+        FbImage.setOnClickListener{
+
+
+            AlertDialog.Builder(this.requireContext())
+                .setTitle("Alert")
+
+                .setMessage("Change profile picture?") // Specifying a listener allows you to take an action before dismissing the dialog.
+                // The dialog is automatically dismissed when a dialog button is clicked.
+                .setPositiveButton("Remove",DialogInterface.OnClickListener { dialog, which ->
+                    val repo = UserRepository(this.requireContext())
+                    val photo = BitmapFactory.decodeResource(
+                        resources,
+                        R.drawable.icon
+                    ) //this returns null
+
+
+                    val stream = ByteArrayOutputStream()
+                    photo.compress(Bitmap.CompressFormat.PNG, 90, stream)
+                    val image: ByteArray = stream.toByteArray()
+                    repo.updateImage(id,image)
+                    val imgbytes: ByteArray = image
+                    val bitmap = BitmapFactory.decodeByteArray(
+                        imgbytes, 0,
+                        imgbytes.size
+                    )
+                    ivProfilepic.setImageBitmap(bitmap)
+                    Toast.makeText(this.context,"Removed Successfully",Toast.LENGTH_SHORT).show()
+
+
+                })
+                .setIcon(R.drawable.alerticon)
+                .setNegativeButton("Upload/Change ",
+                    DialogInterface.OnClickListener { dialog, which ->
+                        val image:Intent=Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                        val resultCode = startActivityForResult(image,1)
+                        onActivityResult(1,1,image)
+                        ivProfilepic.visibility=View.VISIBLE
+                        FbImage.visibility=View.INVISIBLE
+
+                    }) // A null listener allows the button to dismiss the dialog and take no further action.
+
+                .show()
+
+        }
+
+
 
         ivProfilepic.setOnClickListener{
 
@@ -236,6 +386,12 @@ class DashSettingsFragment : Fragment() {
             myEdit?.putString("logout", "1")
 
             myEdit?.apply()
+            LoginManager.getInstance().logOut()
+            val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build()
+             val mGoogleSignInClient = GoogleSignIn.getClient(requireContext(), gso)
+            mGoogleSignInClient.signOut()
 
 
             Toast.makeText(context,"Logged Out Successfully",Toast.LENGTH_SHORT).show()
@@ -264,6 +420,12 @@ class DashSettingsFragment : Fragment() {
                         myEdit?.putString("username", null)
                         myEdit?.putString("password", null)
                         myEdit?.apply()
+                        LoginManager.getInstance().logOut()
+                        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                            .requestEmail()
+                            .build()
+                        val mGoogleSignInClient = GoogleSignIn.getClient(requireContext(), gso)
+                        mGoogleSignInClient.signOut()
                         val intent = Intent(this.requireContext(),MainActivity::class.java)
                         startActivity(intent)
                         activity?.finish()
@@ -278,6 +440,20 @@ class DashSettingsFragment : Fragment() {
 
         return v
     }
+
+
+    fun isequal(newArray:ByteArray,oldArray:ByteArray):Boolean
+    {
+        for (i in 0..63) {
+            if (newArray[i] != oldArray[i]) {
+                return false
+            }
+        }
+
+        return true
+
+    }
+
 
 
 

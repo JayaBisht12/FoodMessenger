@@ -109,7 +109,9 @@ class SignUpFragment : Fragment() {
 
         loginButton.setOnClickListener{
 
-            val intent = Intent(this.requireContext(), FacebookSignUp::class.java)
+            val intent = Intent(this.requireContext(), fbSignin::class.java).apply{
+                putExtra("activity","signup")
+            }
 //            Toast.makeText(context, "Registered successfully", Toast.LENGTH_SHORT).show()
             startActivity(intent)
             activity?.finish()
@@ -122,10 +124,12 @@ class SignUpFragment : Fragment() {
 
         bGoogle.setOnClickListener{
 
-            val intent = Intent(this.requireContext(), GoogleSignUp::class.java)
+            val intent = Intent(this.requireContext(), GoogleSignUp::class.java).apply {
+                putExtra("activity","Signup")
+            }
 //            Toast.makeText(context, "Registered successfully", Toast.LENGTH_SHORT).show()
             startActivity(intent)
-            activity?.finish()
+//            activity?.finish()
 
 
 
