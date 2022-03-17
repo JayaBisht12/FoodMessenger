@@ -34,8 +34,8 @@ class RecentUserActivity : AppCompatActivity() {
             this?.getSharedPreferences("MySharedPref", Context.MODE_PRIVATE)
         val myEdit = sharedPreferences?.edit()  // Creating an Editor object to edit(write to the file)
         //val name = myEdit
-        var logout=  sharedPreferences?.getString("logout","2").toString()
-        var flag: Int = logout.toInt()
+        var logout=  sharedPreferences?.getString("logout",null)
+        //var flag: Int = logout?.toInt()!!
 
         val id=sharedPreferences?.getString("username", null).toString()
         val repo = UserRepository(this)
@@ -90,28 +90,28 @@ class RecentUserActivity : AppCompatActivity() {
 
 
 
-        tvClick.setOnClickListener{
+        tvClick.setOnClickListener {
 
-            if(user.Authentication ==true) {
+            if (user.Authentication == true) {
                 val i = Intent(this, BiometricActivity::class.java)
                 startActivity(i)
                 finish()
-            }
-            else
-            { if(flag==1)
-            {val i = Intent(this, BiometricActivity::class.java)
+            } else{
+//            { if(flag==1)
+//            {val i = Intent(this, BiometricActivity::class.java)
+//
+//                myEdit?.putString("logout", "0")
+//                myEdit?.apply()
+//                startActivity(i)
+//                finish()
+//            }
 
-                myEdit?.putString("logout", "0")
-                myEdit?.apply()
-                startActivity(i)
-                finish()
-            }
-                else{
+                //else{
                 val i = Intent(this, Dashboard1::class.java)
                 startActivity(i)
                 finish()
 
-                }
+                //}
             }
         }
 
